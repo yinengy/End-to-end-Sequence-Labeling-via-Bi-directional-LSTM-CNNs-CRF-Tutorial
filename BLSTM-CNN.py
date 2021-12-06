@@ -38,11 +38,11 @@ parameters['word_lstm_dim'] = 200 #Token LSTM hidden layer size
 parameters['word_bidirect'] = True #Use a bidirectional LSTM for words
 parameters['embedding_path'] = "./data/glove.6B.100d.txt" #Location of pretrained embeddings
 parameters['all_emb'] = 1 #Load all embeddings
-parameters['crf'] =1 #Use CRF (0 to disable)
+parameters['crf'] =0 #Use CRF (0 to disable)
 parameters['dropout'] = 0.5 #Droupout on the input (0 = no dropout)
 parameters['epoch'] =  10 #Number of epochs to run"
 parameters['weights'] = "" #path to Pretrained for from a previous run
-parameters['name'] = "self-trained-model" # Model name
+parameters['name'] = "BLSMT-CNN" # Model name
 parameters['gradient_clip']=5.0
 parameters['char_mode']="CNN"
 models_path = "./models/" #path to saved models
@@ -850,12 +850,14 @@ def get_chunks(seq, tags):
     
     chunk_type, chunk_start = None, None
     for i, tok in enumerate(seq):
+    
         # End of a chunk 1
         if tok == default and chunk_type is not None:
             # Add a chunk.
             chunk = (chunk_type, chunk_start, i)
             chunks.append(chunk)
             chunk_type, chunk_start = None, None
+
 
         # End of a chunk + start of a chunk!
         elif tok != default:
