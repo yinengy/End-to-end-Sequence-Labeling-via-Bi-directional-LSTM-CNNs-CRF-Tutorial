@@ -22,7 +22,7 @@ import sys
 import codecs
 import re
 import numpy as np
-
+import math
 
 #parameters for the Model
 parameters = OrderedDict()
@@ -69,6 +69,20 @@ model_name = models_path + name #get_name(parameters)
 if not os.path.exists(models_path):
     os.makedirs(models_path)
 
+
+def asMinutes(s):
+    m = math.floor(s / 60)
+    s -= m * 60
+    return '%dm %ds' % (m, s)
+
+def timeSince(since, percent):
+    if percent == 0:
+        return 'unknown'
+    now = time.time()
+    s = now - since
+    es = s / percent
+    rs = es - s
+    return '%s (%s)' % (asMinutes(rs), asMinutes(s))
 
 def zero_digits(s):
     """
@@ -964,7 +978,7 @@ if not parameters['reload']:
     model.train(True)
     num_data = len(train_data)
     for epoch in range(0,number_of_epochs):
-        print(f"epoch {epoch+1}/{number_of_epochs}\n", end="\r")
+        print(f"epoch {epoch+1}/{number_of_epochs}, time left: {timeSince(tr, epoch / number_of_epochs)}\n", end="\r")
         for index_counter, index in enumerate(np.random.permutation(num_data)):
             count += 1
             data = train_data[index]
