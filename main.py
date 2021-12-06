@@ -1044,23 +1044,21 @@ if not parameters['reload']:
                 losses.append(loss)
                 loss = 0.0
 
-            #Evaluating on Train, Test, Dev Sets
-            if count % (eval_every) == 0 and count > (eval_every * 20) or \
-                    count % (eval_every*4) == 0 and count < (eval_every * 20):
-                model.train(False)
-                best_train_F, new_train_F, _ = evaluating(model, train_data, best_train_F,"Train")
-                best_dev_F, new_dev_F, save = evaluating(model, dev_data, best_dev_F,"Dev")
-                if save:
-                    print("Saving Model to ", model_name)
-                    torch.save(model.state_dict(), model_name)
-                best_test_F, new_test_F, _ = evaluating(model, test_data, best_test_F,"Test")
-
-                all_F.append([new_train_F, new_dev_F, new_test_F])
-                model.train(True)
-
             #Performing decay on the learning rate
             if count % len(train_data) == 0:
                 adjust_learning_rate(optimizer, lr=learning_rate/(1+decay_rate*count/len(train_data)))
+                
+        # evaluate after every epoch
+        model.train(False)
+        best_train_F, new_train_F, _ = evaluating(model, train_data, best_train_F,"Train")
+        best_dev_F, new_dev_F, save = evaluating(model, dev_data, best_dev_F,"Dev")
+        if save:
+            print("Saving Model to ", model_name)
+            torch.save(model.state_dict(), model_name)
+        best_test_F, new_test_F, _ = evaluating(model, test_data, best_test_F,"Test")
+
+        all_F.append([new_train_F, new_dev_F, new_test_F])
+        model.train(True)
 
     print(time.time() - tr)
     plt.plot(losses)
