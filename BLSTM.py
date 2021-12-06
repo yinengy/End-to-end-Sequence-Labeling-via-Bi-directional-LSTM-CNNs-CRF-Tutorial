@@ -42,7 +42,7 @@ parameters['crf'] =0 #Use CRF (0 to disable)
 parameters['dropout'] = 0.5 #Droupout on the input (0 = no dropout)
 parameters['epoch'] =  50 #Number of epochs to run"
 parameters['weights'] = "" #path to Pretrained for from a previous run
-parameters['name'] = "BLSMT-CNN" # Model name
+parameters['name'] = "BLSMT" # Model name
 parameters['gradient_clip']=5.0
 parameters['char_mode']="CNN"
 models_path = "./models/" #path to saved models

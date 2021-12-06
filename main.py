@@ -40,9 +40,9 @@ parameters['embedding_path'] = "./data/glove.6B.100d.txt" #Location of pretraine
 parameters['all_emb'] = 1 #Load all embeddings
 parameters['crf'] =1 #Use CRF (0 to disable)
 parameters['dropout'] = 0.5 #Droupout on the input (0 = no dropout)
-parameters['epoch'] =  10 #Number of epochs to run"
+parameters['epoch'] =  50 #Number of epochs to run"
 parameters['weights'] = "" #path to Pretrained for from a previous run
-parameters['name'] = "self-trained-model" # Model name
+parameters['name'] = "full" # Model name
 parameters['gradient_clip']=5.0
 parameters['char_mode']="CNN"
 models_path = "./models/" #path to saved models
