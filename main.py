@@ -82,7 +82,7 @@ def timeSince(since, percent):
     s = now - since
     es = s / percent
     rs = es - s
-    return '%s (%s)' % (asMinutes(rs), asMinutes(s))
+    return '%s (total %s)' % (asMinutes(rs), asMinutes(es))
 
 def zero_digits(s):
     """
