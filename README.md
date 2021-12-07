@@ -44,6 +44,8 @@ ipython kernel install --user
 
 `wget http://nlp.stanford.edu/data/glove.6B.zip`
 
+for German vectors: download GloVe Vectors from [deepset](https://www.deepset.ai/german-word-embeddings)
+
 #### Data Files
 
 
