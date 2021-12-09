@@ -97,7 +97,7 @@ def load_sentences(path, zeros):
     """
     sentences = []
     sentence = []
-    for line in codecs.open(path, 'r', 'utf8'):
+    for line in codecs.open(path, 'r', 'utf8'):    
         line = zero_digits(line.rstrip()) if zeros else line.rstrip()
         if not line:
             if len(sentence) > 0:
@@ -250,7 +250,7 @@ def tag_mapping(sentences):
     return dico, tag_to_id, id_to_tag
 
 
-dico_words,word_to_id,id_to_word = word_mapping(train_sentences, parameters['lower'])
+dico_words,word_to_id,id_to_word = word_mapping(train_sentences + dev_sentences + test_sentences, parameters['lower'])
 dico_chars, char_to_id, id_to_char = char_mapping(train_sentences)
 dico_tags, tag_to_id, id_to_tag = tag_mapping(train_sentences)
 
@@ -272,6 +272,7 @@ def prepare_dataset(sentences, word_to_id, char_to_id, tag_to_id, lower=False):
     data = []
     for s in sentences:
         str_words = [w[0] for w in s]
+        
         words = [word_to_id[lower_case(w,lower) if lower_case(w,lower) in word_to_id else '<UNK>']
                  for w in str_words]
         # Skip characters that are not in the training set
@@ -289,6 +290,7 @@ def prepare_dataset(sentences, word_to_id, char_to_id, tag_to_id, lower=False):
 train_data = prepare_dataset(
     train_sentences, word_to_id, char_to_id, tag_to_id, parameters['lower']
 )
+
 dev_data = prepare_dataset(
     dev_sentences, word_to_id, char_to_id, tag_to_id, parameters['lower']
 )
@@ -300,6 +302,7 @@ print("{} / {} / {} sentences in train / dev / test.".format(len(train_data), le
 
 all_word_embeds = {}
 for i, line in enumerate(codecs.open(parameters['embedding_path'], 'r', 'utf-8')):
+
     s = line.strip().split()
     if len(s) == parameters['word_dim'] + 1:
         all_word_embeds[s[0]] = np.array([float(i) for i in s[1:]])

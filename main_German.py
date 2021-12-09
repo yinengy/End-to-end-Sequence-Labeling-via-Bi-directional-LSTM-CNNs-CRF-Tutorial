@@ -26,23 +26,23 @@ import math
 
 #parameters for the Model
 parameters = OrderedDict()
-parameters['train'] = "./data/eng.train" #Path to train file
-parameters['dev'] = "./data/eng.testa" #Path to test file
-parameters['test'] = "./data/eng.testb" #Path to dev file
+parameters['train'] = "./data/deu.train" #Path to train file
+parameters['dev'] = "./data/deu.testa" #Path to test file
+parameters['test'] = "./data/deu.testb" #Path to dev file
 parameters['tag_scheme'] = "BIOES" #BIO or BIOES
 parameters['lower'] = True # Boolean variable to control lowercasing of words
 parameters['zeros'] =  True # Boolean variable to control replacement of  all digits by 0 
 parameters['char_dim'] = 30 #Char embedding dimension
-parameters['word_dim'] = 100 #Token embedding dimension
+parameters['word_dim'] = 300 #Token embedding dimension
 parameters['word_lstm_dim'] = 200 #Token LSTM hidden layer size
 parameters['word_bidirect'] = True #Use a bidirectional LSTM for words
-parameters['embedding_path'] = "./data/glove.6B.100d.txt" #Location of pretrained embeddings
+parameters['embedding_path'] = "./data/German_GLOVE.txt" #Location of pretrained embeddings
 parameters['all_emb'] = 1 #Load all embeddings
-parameters['crf'] =0 #Use CRF (0 to disable)
+parameters['crf'] =1 #Use CRF (0 to disable)
 parameters['dropout'] = 0.5 #Droupout on the input (0 = no dropout)
 parameters['epoch'] =  50 #Number of epochs to run"
 parameters['weights'] = "" #path to Pretrained for from a previous run
-parameters['name'] = "BLSMT-CNN" # Model name
+parameters['name'] = "full_German_50_epochs" # Model name
 parameters['gradient_clip']=5.0
 parameters['char_mode']="CNN"
 models_path = "./models/" #path to saved models
@@ -850,14 +850,12 @@ def get_chunks(seq, tags):
     
     chunk_type, chunk_start = None, None
     for i, tok in enumerate(seq):
-    
         # End of a chunk 1
         if tok == default and chunk_type is not None:
             # Add a chunk.
             chunk = (chunk_type, chunk_start, i)
             chunks.append(chunk)
             chunk_type, chunk_start = None, None
-
 
         # End of a chunk + start of a chunk!
         elif tok != default:
@@ -1046,11 +1044,10 @@ if not parameters['reload']:
                 losses.append(loss)
                 loss = 0.0
 
-
             #Performing decay on the learning rate
             if count % len(train_data) == 0:
                 adjust_learning_rate(optimizer, lr=learning_rate/(1+decay_rate*count/len(train_data)))
-
+                
         # evaluate after every epoch
         model.train(False)
         best_train_F, new_train_F, _ = evaluating(model, train_data, best_train_F,"Train")
@@ -1062,7 +1059,6 @@ if not parameters['reload']:
 
         all_F.append([new_train_F, new_dev_F, new_test_F])
         model.train(True)
-
 
     print(time.time() - tr)
     plt.plot(losses)

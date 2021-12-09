@@ -42,7 +42,7 @@ parameters['crf'] =1 #Use CRF (0 to disable)
 parameters['dropout'] = 0.5 #Droupout on the input (0 = no dropout)
 parameters['epoch'] =  50 #Number of epochs to run"
 parameters['weights'] = "" #path to Pretrained for from a previous run
-parameters['name'] = "full" # Model name
+parameters['name'] = "BGRU-CNN-CRF" # Model name
 parameters['gradient_clip']=5.0
 parameters['char_mode']="CNN"
 models_path = "./models/" #path to saved models
@@ -250,7 +250,7 @@ def tag_mapping(sentences):
     return dico, tag_to_id, id_to_tag
 
 
-dico_words,word_to_id,id_to_word = word_mapping(train_sentences, parameters['lower'])
+dico_words,word_to_id,id_to_word = word_mapping(train_sentences + dev_sentences + test_sentences, parameters['lower'])
 dico_chars, char_to_id, id_to_char = char_mapping(train_sentences)
 dico_tags, tag_to_id, id_to_tag = tag_mapping(train_sentences)
 

@@ -250,7 +250,7 @@ def tag_mapping(sentences):
     return dico, tag_to_id, id_to_tag
 
 
-dico_words,word_to_id,id_to_word = word_mapping(train_sentences, parameters['lower'])
+dico_words,word_to_id,id_to_word = word_mapping(train_sentences + dev_sentences + test_sentences, parameters['lower'])
 dico_chars, char_to_id, id_to_char = char_mapping(train_sentences)
 dico_tags, tag_to_id, id_to_tag = tag_mapping(train_sentences)
 
